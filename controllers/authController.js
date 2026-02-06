@@ -25,11 +25,12 @@ const registerController = async (req, res) => {
       user: User,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      message: "Error in Registering User",
-      success: false,
-    });
+  console.log("REGISTER ERROR", error);
+  res.status(500).send({
+    success: false,
+    message: "Error in Registering User",
+    error: error.message,
+  });
   }
 };
 
@@ -43,15 +44,22 @@ const loginController = async (req, res) => {
         success: false,
       });
     }
+    //check role
+    if (user.role !== req.body.role) {
+      return res.status(401).send({
+        message: "Role not matched",
+        success: false,
+      });
+    }
     //check password
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) {
-      return res.status(500).send({
+      return res.status(401).send({
         message: "Invalid Email or Password",
         success: false,
       });
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {expiresIn: "1d",});
+    const token = jwt.sign({ userId : user._id }, process.env.JWT_SECRET, {expiresIn: "1d",});
     return res.status(200).send({
       message: "Login Successful",
       success: true,
@@ -68,4 +76,23 @@ const loginController = async (req, res) => {
   }
 };
 
-module.exports = {registerController, loginController };
+//GET Current User
+const currentUserController = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.userId).select("-password");
+    return res.status(200).send({
+      message: "Current User Fetched Successfully",
+      success: true,
+      user: user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+        message: "Error in Fetching Current User",
+        success: false,
+        error,
+    });
+  }
+};
+
+module.exports = {registerController, loginController, currentUserController};

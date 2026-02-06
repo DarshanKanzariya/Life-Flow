@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
   try {
@@ -9,9 +9,8 @@ module.exports = (req, res, next) => {
           message: "Authentication Failed",
           success: false,
         });
-      }
-      else {
-        req.body.userId = decoded.id;
+      } else {
+        req.userId = decoded.id;
         next();
       }
     });
