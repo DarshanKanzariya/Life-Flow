@@ -44,13 +44,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Password is required"]
     },
-    website: {
-        type: String,
-    },
-    address: {
-        type: String,
-        required: [true, "Address is required"]
-    },
     phone: {
         type: String,
         required: [true, "Phone number is required"]
