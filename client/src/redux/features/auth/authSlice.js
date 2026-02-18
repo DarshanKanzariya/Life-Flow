@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
+import { userLogin } from "./authActions";
+
+const token = localStorage.getItem("token") ? localStorage.getItem("token") : null;
 
 const initialState = {
   user: null,
-  token: null,
-  isAuthenticated: false,
+  token,
   loading: false,
   error: null,
 };
@@ -12,26 +14,21 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
-  reducers: {/*
-    {loginStart: (state) => {
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(userLogin.pending, (state) => {
       state.loading = true;
       state.error = null;
-    },
-    loginSuccess: (state, action) => {
+    });
+    builder.addCase(userLogin.fulfilled, (state, payload) => {
       state.loading = false;
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      state.isAuthenticated = true;
-    },
-    loginFailure: (state, action) => {
+      state.user = payload.user;
+      state.token = payload.token;
+    });
+    builder.addCase(userLogin.rejected, (state, payload) => {
       state.loading = false;
-      state.error = action.payload;
-    },
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-      state.isAuthenticated = false;
-    },
-  */},
+      state.error = payload;
+    });
+  },
 });
 export default authSlice;
