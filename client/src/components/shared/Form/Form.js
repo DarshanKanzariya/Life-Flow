@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import { handleLogin, handleRegister } from "../../../services/authService";
 
 const Form = ({ formType, submitBtn, formTitle }) => {
+  const [role, setRole] = useState("user");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("donor");
   const [name, setName] = useState("");
   const [hospitalName, setHospitalName] = useState("");
   const [donorName, setDonorName] = useState("");
@@ -22,13 +22,13 @@ const Form = ({ formType, submitBtn, formTitle }) => {
           else if (formType === "register")
             return handleRegister(
               e,
+              role,
               email,
               password,
-              role,
               name,
               hospitalName,
               donorName,
-              phone
+              phone,
             );
         }}
       >

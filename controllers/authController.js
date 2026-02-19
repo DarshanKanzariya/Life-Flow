@@ -12,6 +12,21 @@ const registerController = async (req, res) => {
         success: false,
       });
     }
+    //CLEAN ROLE-BASED FIELDS HERE
+    if (req.body.role === "admin") {
+      req.body.hospitalName = undefined;
+      req.body.donorName = undefined;
+    }
+
+    if (req.body.role === "hospital") {
+      req.body.donorName = undefined;
+      req.body.name = undefined;
+    }
+
+    if (req.body.role === "donor") {
+      req.body.hospitalName = undefined;
+      req.body.name = undefined;
+    }
     //hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
