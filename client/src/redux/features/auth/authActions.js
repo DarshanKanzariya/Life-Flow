@@ -10,7 +10,8 @@ export const userLogin = createAsyncThunk(
       //store token
       if (data.success) {
         localStorage.setItem("token", data.token);
-        toast.success(data.message);
+        alert(data.message);
+        window.location.replace("/");
       }
       return data;
     } catch (error) {

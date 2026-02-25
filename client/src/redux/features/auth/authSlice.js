@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
 import { currentUser, userLogin, userRegister } from "./authActions";
 
@@ -7,9 +6,9 @@ const token = localStorage.getItem("token")
   : null;
 
 const initialState = {
+  loading: false,
   user: null,
   token,
-  loading: false,
   error: null,
 };
 

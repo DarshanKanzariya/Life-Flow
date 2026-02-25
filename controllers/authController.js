@@ -1,53 +1,61 @@
 const userModel = require("../models/userModel");
-const bcrypt = require ('bcryptjs');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const registerController = async (req, res) => {
   try {
     const existingUser = await userModel.findOne({ email: req.body.email });
-    //validation
+
     if (existingUser) {
       return res.status(200).send({
         message: "User Already Exists",
         success: false,
       });
     }
-    //CLEAN ROLE-BASED FIELDS HERE
-    if (req.body.role === "admin") {
-      req.body.hospitalName = undefined;
-      req.body.donorName = undefined;
+
+    // 🔥 STEP 1: HASH PASSWORD FIRST
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+    // 🔥 STEP 2: THEN BUILD USER OBJECT
+    const userData = {
+      role: req.body.role,
+      email: req.body.email,
+      phone: req.body.phone,
+      password: hashedPassword,
+    };
+
+    if (req.body.role === "admin" || req.body.role === "user") {
+      userData.name = req.body.name;
     }
 
     if (req.body.role === "hospital") {
-      req.body.donorName = undefined;
-      req.body.name = undefined;
+      userData.name = req.body.hospitalName;
     }
 
     if (req.body.role === "donor") {
-      req.body.hospitalName = undefined;
-      req.body.name = undefined;
+      userData.name = req.body.donorName;
     }
-    //hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    req.body.password = hashedPassword;
-    //save user
-    const User = new userModel(req.body);
+
+    const User = new userModel(userData);
     await User.save();
+
     return res.status(201).send({
       message: "User Registered Successfully",
       success: true,
       user: User,
     });
+
   } catch (error) {
-  console.log("REGISTER ERROR", error);
-  res.status(500).send({
-    success: false,
-    message: "Error in Registering User",
-    error: error.message,
-  });
+    console.log("REGISTER ERROR", error);
+    res.status(500).send({
+      success: false,
+      message: "Error in Registering User",
+      error: error.message,
+    });
   }
 };
+
 
 //login call back
 const loginController = async (req, res) => {
@@ -74,7 +82,9 @@ const loginController = async (req, res) => {
         success: false,
       });
     }
-    const token = jwt.sign({ userId : user._id }, process.env.JWT_SECRET, {expiresIn: "1d",});
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
     return res.status(200).send({
       message: "Login Successful",
       success: true,
@@ -84,9 +94,9 @@ const loginController = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send({
-        message: "Error in Login",
-        success: false,
-        error,
+      message: "Error in Login",
+      success: false,
+      error,
     });
   }
 };
@@ -103,11 +113,11 @@ const currentUserController = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send({
-        message: "Error in Fetching Current User",
-        success: false,
-        error,
+      message: "Error in Fetching Current User",
+      success: false,
+      error,
     });
   }
 };
 
-module.exports = {registerController, loginController, currentUserController};
+module.exports = { registerController, loginController, currentUserController };
