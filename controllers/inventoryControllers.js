@@ -39,7 +39,7 @@ const createInventoryController = async (req, res) => {
 const getInventoryController = async (req, res) => {
   try {
     const inventory = await inventoryModel
-      .find({ hospital: req.body.userId })
+      .find({ hospital: req.userId })
       .populate("donor")
       .populate("hospital")
       .sort({ createdAt: -1 });

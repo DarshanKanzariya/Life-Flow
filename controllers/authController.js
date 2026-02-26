@@ -43,7 +43,7 @@ const registerController = async (req, res) => {
     return res.status(201).send({
       message: "User Registered Successfully",
       success: true,
-      user: User,
+      User,
     });
 
   } catch (error) {
@@ -83,13 +83,13 @@ const loginController = async (req, res) => {
       });
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
+      expiresIn: "7d",
     });
     return res.status(200).send({
       message: "Login Successful",
       success: true,
-      user: user,
-      token: token,
+      user,
+      token,
     });
   } catch (error) {
     console.log(error);

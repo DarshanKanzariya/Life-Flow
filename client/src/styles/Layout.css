@@ -1,0 +1,58 @@
+.main {
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+.sidebar {
+  width: 250px;
+  min-height: 100vh;
+  background-color: #1e1e2f;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin: 10px 0;
+}
+
+.sidebar a:hover {
+  color: #ff4d4f;
+}
+
+.menu {
+  padding-top: 100px;
+}
+
+.menu-item {
+  padding-top: 30px;
+}
+
+.menu-item a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.menu-item i {
+  font-size: 1.2rem;
+  margin: 0 15px;
+  color: white;
+}
+
+.active {
+  background-color: white;
+  padding: 10px;
+  margin-top: 25px;
+}
+
+.active a,
+.active i {
+  color: #2e3200;
+}

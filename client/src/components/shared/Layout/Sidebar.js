@@ -1,5 +1,5 @@
 import React from "react";
-// import { userMenu } from "./Menus/userMenu";
+//import { userMenu } from "./Menus/userMenu";
 import { useLocation, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "../../../styles/Layout.css";
@@ -13,8 +13,9 @@ const Sidebar = () => {
   return (
     <div>
       <div className="sidebar">
+        <h1 style={{ color: "white" }}>Sidebar Working</h1>
         <div className="menu">
-          {user?.role === "organisation" && (
+          {user?.role === "hospital" && (
             <>
               <div
                 className={`menu-item ${location.pathname === "/" && "active"}`}
@@ -32,11 +33,11 @@ const Sidebar = () => {
               </div>
               <div
                 className={`menu-item ${
-                  location.pathname === "/hospital" && "active"
+                  location.pathname === "/user" && "active"
                 }`}
               >
                 <i className="fa-solid fa-hospital"></i>
-                <Link to="/hospital">Hospital</Link>
+                <Link to="/user">User</Link>
               </div>
             </>
           )}
@@ -44,11 +45,11 @@ const Sidebar = () => {
             <>
               <div
                 className={`menu-item ${
-                  location.pathname === "/donar-list" && "active"
+                  location.pathname === "/user-list" && "active"
                 }`}
               >
                 <i className="fa-solid fa-warehouse"></i>
-                <Link to="/donar-list">Donar List</Link>
+                <Link to="/user-list">User List</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -60,22 +61,22 @@ const Sidebar = () => {
               </div>
               <div
                 className={`menu-item ${
-                  location.pathname === "/org-list" && "active"
+                  location.pathname === "/donar-list" && "active"
                 }`}
               >
                 <i className="fa-solid fa-hospital"></i>
-                <Link to="/org-list">Organisation List</Link>
+                <Link to="/donar-list">Donar List</Link>
               </div>
             </>
           )}
-          {(user?.role === "donar" || user?.role === "hospital") && (
+          {(user?.role === "donar" || user?.role === "user") && (
             <div
               className={`menu-item ${
-                location.pathname === "/orgnaisation" && "active"
+                location.pathname === "/hospital" && "active"
               }`}
             >
               <i className="fa-sharp fa-solid fa-building-ngo"></i>
-              <Link to="/orgnaisation">Orgnaisation</Link>
+              <Link to="/hospital">hospital</Link>
             </div>
           )}
           {user?.role === "hospital" && (
@@ -99,18 +100,6 @@ const Sidebar = () => {
             </div>
           )}
 
-          {/* {userMenu.map((menu) => {
-            const isActive = location.pathname === menu.path;
-            return (
-              <div
-                className={`menu-item ${isActive && "active"}`}
-                key={menu.name}
-              >
-                <i className={menu.icon}></i>
-                <Link to={menu.path}>{menu.name}</Link>
-              </div>
-            );
-          })} */}
         </div>
       </div>
     </div>

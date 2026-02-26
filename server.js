@@ -19,11 +19,9 @@ app.use(cors());
 app.use(morgan("dev"));
 
 //routes
-// 1 test
-app.use("/api/v1/test", require("./routes/testRoutes"));
-// 2 auth
+// 1 auth
 app.use("/api/v1/auth", require("./routes/authRoutes"));
-// 3 inventory
+// 2 inventory
 app.use("/api/v1/inventory", require("./routes/inventoryRoutes"));
 
 //port
