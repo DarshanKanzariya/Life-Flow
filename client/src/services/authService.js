@@ -23,19 +23,28 @@ export const handleRegister = (
   phone,
 ) => {
   e.preventDefault();
-  try {
-    store.dispatch(
-      userRegister({
-        role,
-        email,
-        password,
-        name,
-        hospitalName,
-        donorName,
-        phone,
-      }),
-    );
-  } catch (error) {
-    console.error(error);
+
+  if (!role || !email || !password || !phone) {
+    return alert("Please fill all required fields");
   }
+
+  if (role === "hospital" && !hospitalName) {
+    return alert("Hospital name is required");
+  }
+
+  if (role === "donor" && !donorName) {
+    return alert("Donor name is required");
+  }
+
+  store.dispatch(
+    userRegister({
+      role,
+      email,
+      password,
+      name,
+      hospitalName,
+      donorName,
+      phone,
+    })
+  );
 };

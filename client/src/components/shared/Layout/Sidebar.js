@@ -7,6 +7,7 @@ import "../../../styles/Layout.css";
 const Sidebar = () => {
   //GET USER STATE
   const { user } = useSelector((state) => state.auth);
+  console.log("SIDEBAR USER:", user);
 
   const location = useLocation();
 
@@ -25,11 +26,11 @@ const Sidebar = () => {
               </div>
               <div
                 className={`menu-item ${
-                  location.pathname === "/donar" && "active"
+                  location.pathname === "/donor" && "active"
                 }`}
               >
                 <i className="fa-solid fa-hand-holding-medical"></i>
-                <Link to="/donar">Donar</Link>
+                <Link to="/donor">Donor</Link>
               </div>
               <div
                 className={`menu-item ${
@@ -61,15 +62,15 @@ const Sidebar = () => {
               </div>
               <div
                 className={`menu-item ${
-                  location.pathname === "/donar-list" && "active"
+                  location.pathname === "/donor-list" && "active"
                 }`}
               >
                 <i className="fa-solid fa-hospital"></i>
-                <Link to="/donar-list">Donar List</Link>
+                <Link to="/donor-list">Donor List</Link>
               </div>
             </>
           )}
-          {(user?.role === "donar" || user?.role === "user") && (
+          {(user?.role === "donor" || user?.role === "user") && (
             <div
               className={`menu-item ${
                 location.pathname === "/hospital" && "active"
@@ -89,7 +90,7 @@ const Sidebar = () => {
               <Link to="/consumer">Consumer</Link>
             </div>
           )}
-          {user?.role === "donar" && (
+          {user?.role === "donor" && (
             <div
               className={`menu-item ${
                 location.pathname === "/donation" && "active"

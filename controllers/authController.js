@@ -30,11 +30,11 @@ const registerController = async (req, res) => {
     }
 
     if (req.body.role === "hospital") {
-      userData.name = req.body.hospitalName;
+      userData.hospitalName = req.body.hospitalName;
     }
 
     if (req.body.role === "donor") {
-      userData.name = req.body.donorName;
+      userData.donorName = req.body.donorName;
     }
 
     const User = new userModel(userData);

@@ -1,33 +1,21 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import API from "../../services/API";
-import { currentUser } from "../../redux/features/auth/authActions";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+
 const ProtectedRoute = ({ children }) => {
-  const dispatch = useDispatch();
+  const { token, user } = useSelector((state) => state.auth);
 
-  //get user current
-  const getUser = async () => {
-    try {
-      const { data } = await API.get("/auth/current-user");
-      if (data?.success) {
-        dispatch(currentUser(data));
-      }
-    } catch (error) {
-      localStorage.clear();
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getUser();
-  });
-
-  if (localStorage.getItem("token")) {
-    return children;
-  } else {
+  // If no token → go login
+  if (!token) {
     return <Navigate to="/login" />;
   }
+
+  // If token exists but user not loaded yet → wait
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;

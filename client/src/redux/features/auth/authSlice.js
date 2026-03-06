@@ -59,4 +59,4 @@ const authSlice = createSlice({
     });
   },
 });
-export default authSlice;
+export default authSlice.reducer;

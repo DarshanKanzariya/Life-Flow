@@ -59,19 +59,14 @@ export const userRegister = createAsyncThunk(
 //current user
 export const currentUser = createAsyncThunk(
   "auth/currentUser",
-  async ({ rejectWithValue }) => {
-    try {      const res = await API.get("/auth/current-user");
-      if (res?.data){
-        return res?.data;
-      }
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await API.get("/auth/current-user");
+      return data;
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      } else {
-        return rejectWithValue(error.message);
-      }
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
-  },
+  }
 );
 
 //logout user
