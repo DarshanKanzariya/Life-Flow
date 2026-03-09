@@ -15,7 +15,7 @@ const Sidebar = () => {
     <div>
       <div className="sidebar">
         <h1 style={{ color: "white" }}>Sidebar Working</h1>
-        <div className="menu">
+        <div className="menu"> 
           {user?.role === "hospital" && (
             <>
               <div
